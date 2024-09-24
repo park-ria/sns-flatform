@@ -1,0 +1,74 @@
+import { useState, useEffect } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createGlobalStyle } from "styled-components";
+import { auth } from "./firebase";
+import reset from "styled-reset";
+import Layout from "./components/Layout";
+import Home from "./routes/Home";
+import Profile from "./routes/Profile";
+import Login from "./routes/Login";
+import CreateAccount from "./routes/CreateAccount";
+import LoadingScreen from "./components/LoadingScreen";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/create-account",
+    element: <CreateAccount />,
+  },
+]);
+
+const GlobalStyles = createGlobalStyle`
+${reset}
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body{
+    background: #000;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+`;
+
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const init = async () => {
+    // await firebase Authentication
+    await auth.authStateReady();
+    //setTimeout(() => setIsLoading(false), 2000); // 잠시 보여주기 위한 목적
+    await setIsLoading(false);
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return (
+    <>
+      <GlobalStyles />
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
+    </>
+  );
+}
+
+export default App;
