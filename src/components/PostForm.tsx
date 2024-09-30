@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { auth, db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+=======
+import { addDoc, collection } from "firebase/firestore";
+import React, { useState } from "react";
+import styled from "styled-components";
+import { auth, db } from "../firebase";
+>>>>>>> d146113bf191639a02d7b8d3197596ef3be2cadf
 
 const Form = styled.form`
   display: flex;
@@ -81,14 +88,18 @@ const PostForm = () => {
   const [file, setFile] = useState<File | null>(null);
   //file이거나 null인 형식 초기값 null
 
+<<<<<<< HEAD
   // 5mb 용량
   const maxFileSize = 5 * 1024 * 1024;
 
+=======
+>>>>>>> d146113bf191639a02d7b8d3197596ef3be2cadf
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPost(e.target.value);
   };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+<<<<<<< HEAD
     //console.log(e.target.files);
     const { files } = e.target;
     if (files && files.length === 1) {
@@ -98,6 +109,11 @@ const PostForm = () => {
       }
       setFile(files[0]);
     }
+=======
+    console.log(e.target.files);
+    const { files } = e.target;
+    if (files && files.length === 1) setFile(files[0]);
+>>>>>>> d146113bf191639a02d7b8d3197596ef3be2cadf
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -106,12 +122,17 @@ const PostForm = () => {
     if (!user || isLoading || post === "" || post.length > 180) return;
     try {
       setIsLoading(true);
+<<<<<<< HEAD
       const doc = await addDoc(collection(db, "contents"), {
+=======
+      await addDoc(collection(db, "contents"), {
+>>>>>>> d146113bf191639a02d7b8d3197596ef3be2cadf
         post,
         createdAt: Date.now(),
         username: user?.displayName || "Anonymous",
         userId: user.uid,
       });
+<<<<<<< HEAD
       if (file) {
         const locationRef = ref(storage, `contents/${user.uid}/${doc.id}`);
         const result = await uploadBytes(locationRef, file);
@@ -132,6 +153,8 @@ const PostForm = () => {
       }
       setPost("");
       setFile(null);
+=======
+>>>>>>> d146113bf191639a02d7b8d3197596ef3be2cadf
     } catch (e) {
       console.error(e);
     } finally {
@@ -147,10 +170,16 @@ const PostForm = () => {
         name="contents"
         id="contents"
         placeholder="What is Happening?"
+<<<<<<< HEAD
         required
       ></TextArea>
       <AttachFileButton htmlFor="file">
         {file ? "Contents Added ✅" : "Add ➕"}
+=======
+      ></TextArea>
+      <AttachFileButton htmlFor="file">
+        {file ? "Contents Added✔" : "Add"}
+>>>>>>> d146113bf191639a02d7b8d3197596ef3be2cadf
       </AttachFileButton>
       <AttachFileInput
         onChange={onFileChange}
